@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name=”description” content=”The DigSig-ng project provides ELF binary verification in the Linux kernel.”>
+
+	<title>DigSig-ng Project</title>
+
+	<style type="text/css">
+		body {
+			color: #0F324B;
+			background-color: #F0F0F0;
+			margin-left: auto;
+			margin-right: auto;
+			max-width: 960px;
+			padding-left: 16px;
+			padding-right: 16px;
+
+			font-family: Helvetica, sans-serif;
+
+			/*font-family: "Roboto", sans-serif;*/
+
+			/*color: white;background-color: black;*/
+		}
+
+		code {
+			/*font-family: "Inconsolata", monospace;*/
+			font-family: "Inconsolata", "Ubuntu Mono", monospace;
+			border: dashed 1px #ccc;
+			background-color: #fff;
+			padding-left: 3px;
+			padding-right: 3px;
+		}
+
+		hr {
+			display: none;
+		}
+
+		#footer {
+			border-top: dotted 1px #2D78A0;
+			padding-top: 5px;
+		}
+
+		h1 {
+			color: #0F324B;
+			border-bottom: solid 2px #2D78A0;
+			padding-bottom: 3px;
+			//text-align: center;
+		}
+
+		h2, h3 {
+			color: #0F324B;
+			border-bottom: solid 2px #2D78A0;
+			padding-bottom: 3px;
+		}
+
+		a {
+			color: #87AA1E;
+		}
+
+		a:hover {
+			background-color: #BED741;
+			color: #F0F0F0;
+		}
+
+		::selection {
+			background: #87AA1E;
+			color: #fff;
+		}
+
+		::-moz-selection {
+			background: #87AA1E;
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+
+<div align="center"><img src="logo.png" alt="digsig-ng"></div>
+
+<hr>
+
+<h1>DigSig-ng - ELF signature verification in the Linux 3.x kernel</h1>
+
+<h2>Introduction</h2>
+<p>DigSig-ng is a Linux kernel security module, providing runtime support for RSA digital signature verification of ELF executables and dynamic libraries. It is intended to increase system security by only allowing trusted ELF executables and libraries to run.</p>
+<p>DigSig-ng is a fork of the DigSig project, which began in 2003 as part of a research project by Ericsson Research Canada (Open Systems Lab), but has been unmaintained since March 5th 2009, with the last major release on January 29th 2008.</p>
+<p>DigSig-ng aims to maintain the DigSig project for newer kernels, but also to improve the original project in several ways. DigSig-ng's future roadmap aims to provide support for newer, more secure cryptographic hash functions (i.e. SHA-2 and SHA-3), support for RSA key lengths above 2048 bits, support for elliptic-curve (ECDSA) signing and verification and the ability to stack DigSig with other kernel security modules.</p>
+
+<h2>Disclaimer</h2>
+<p>DigSig-ng is <b>pre-release software</b>, and comes without any warranty, without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
+<p>To put it simply, before we have a release tarball to download from the website, you should exercise caution if attempting to use this software in a production environment.</p>
+
+<h2>Feature Summary</h2>
+<ul>
+	<li>Kernel-mode digital signature verification for ELF executables and dynamic libraries</li>
+	<li>Uses SHA-1 digest and RSA signature, with key length of 1024 or 2048 bits <em>(to be expanded, see below)</em></li>
+	<li>Signature validation caching, negating the performance overhead of signature verification</li>
+	<li>Signature revocation</li>
+	<li>Mitigation against <abbr title="time of check to time of use">TOCTTOU</abbr> attacks via USB mass storage devices or network filesystems (with caveats)</li>
+	<li>Implemented as a Linux Security Module, currently building against Linux 3.12</li>
+</ul>
+
+<h2>Roadmap</h2>
+<ul>
+	<li>Support for arbitrarily sized (4096-bit and longer, if desired) RSA keys</li>
+	<li>Support for signature verification using elliptic curve cryptography (ECDSA)</li>
+	<li>SHA-256 and SHA-512 (and eventually SHA-3) digest algorithm</li>
+	<li><code>dsngctl</code> userspace tool for tuning module parameters (work in progress at <code>https://github.com/digsig-ng/dsngctl.git</code> repository)</li>
+	<li><code>dsngsign</code> userspace tool for digitally signing ELF binaries</li>
+	<li>Ability to stack with other kernel security modules</li>
+	<li>Support for other kernel releases (particularly, support for every LTS kernel release, plus the latest kernel release)</li>
+</ul>
+
+<h2>Develop</h2>
+<p>Development of the DigSig-ng project is conducted using git for revision control, with repositories currently hosted on GitHub. You can check out the kernel sources at <code>https://github.com/digsig-ng/linux-digsig.git</code>. The DigSig-ng source code lives within the <code>security/digsig</code> directory of the source tree.</p>
+<p>You can obtain the sources for dsngctl from <code>https://github.com/digsig-ng/dsngctl.git</code>, which supersedes the <code>extract_pkey</code> tool available in the digsig source tree.</p>
+<p>The bsign tool might not be packaged for your distribution, but you can download and compile the source code using autotools from our mirror at <code>https://github.com/digsig-ng/bsign-mirror.git</code>. bsign is necessary to sign binaries.</p>
+
+<h2>Contribute</h2>
+<p>There are a few ways the project could be improved. If you're interested in contributing and you'd like some guidance, send an e-mail to the address in the contact section below.</p>
+
+<h2>Breaking Issues</h2>
+<p>There are some known issues which are currently being worked on. These issues include:</p>
+<ul>
+	<li>Attempting to compile while <code>CONFIG_LIBMPI</code> is enabled will fail due to a conflict between the module's gnupg version and the gnupg MPI library present in the Linux kernel</li>
+</ul>
+
+<h2>Documentation</h2>
+<p>There is currently no documentation available as part of the DigSig-ng project, however, the documentation on the DigSig/DSI website is still applicable. Documentation for DigSig-ng will hopefully be prepared in time for the first major release.</p>
+
+<h2>Downloads</h2>
+<h3>Current Release</h3>
+<p>There is currently <b>no stable release</b> of DigSig-ng. If you're feeling adventurous, you can download the code from Git and build it yourself.</p>
+<h3>Other Downloads</h3>
+<p>You can find documents of historical interest <a href="files/historical">in the downloads folder of this server</a>.</p>
+
+<h2>Links</h2>
+<ul>
+	<li><a href="http://disec.sourceforge.net">DigSig/DSI Project</a></li>
+	<li><a href="https://github.com/digsig-ng">DigSig-ng on GitHub</a></li>
+</ul>
+
+<h2>Contact</h2>
+<p>You can contact the project maintainer at <code>maintainer [_N_O_S_P_A_M_] digsig-ng [_D_O_T_] org</code>.</p>
+<p>Please use this address for:</p>
+<ul>
+	<li>Patch submissions</li>
+	<li>Queries on contributing to the project</li>
+	<li>Questions you might have about using the software</li>
+	<li>All other correspondance</li>
+</ul>
+
+<hr>
+
+<p id="footer"><em>Last updated: Wed, 01 Jan 2014 19:45:28 +0000 </em></p>
+
+</body>
+</html>
